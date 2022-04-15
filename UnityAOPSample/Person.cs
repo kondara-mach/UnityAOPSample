@@ -6,16 +6,16 @@ namespace UnityAOPSample
 {
     internal class Person : IDataErrorInfo
     {
-        public string? Error { get; private set; }
+        public string Error { get; private set; }
 
         // Interceptorで実装してもらう
-        public virtual string? this[string? columnName]
+        public virtual string this[string columnName]
         {
             get { throw new NotImplementedException(); }
         }
 
         [Required(ErrorMessage = "名前を入力してください")]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         public string Greet(string name)
         {

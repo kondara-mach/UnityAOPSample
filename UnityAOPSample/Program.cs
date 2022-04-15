@@ -1,4 +1,5 @@
 ﻿using ClassLibrary1;
+using System;
 using Unity;
 using Unity.Interception;
 using Unity.Interception.Interceptors.InstanceInterceptors.InterfaceInterception;
@@ -31,54 +32,6 @@ namespace UnityAOPSample
         }
     }
 
-    //internal class ExceptionLoggerCallHandler : ICallHandler
-    //{
-    //    public IMethodReturn Invoke(
-    //      IMethodInvocation input, GetNextHandlerDelegate getNext)
-    //    {
-    //        IMethodReturn result = getNext()(input, getNext);
-    //        if (result.Exception != null)
-    //        {
-    //            Console.WriteLine("ExceptionLoggerCallHandler:");
-    //            Console.WriteLine("\tParameters:");
-    //            for (int i = 0; i < input.Arguments.Count; i++)
-    //            {
-    //                var parameter = input.Arguments[i];
-    //                Console.WriteLine(
-    //                  string.Format("\t\tParam{0} -> {1}", i, parameter.ToString()));
-    //            }
-    //            Console.WriteLine();
-    //            Console.WriteLine("Exception occured: ");
-    //            Console.WriteLine(
-    //              string.Format("\tException -> {0}", result.Exception.Message));
-
-    //            Console.WriteLine();
-    //            Console.WriteLine("StackTrace:");
-    //            Console.WriteLine(Environment.StackTrace);
-    //        }
-
-    //        return result;
-    //    }
-
-    //    public int Order { get; set; }
-    //}
-
-    //internal class ExceptionLoggerAttribute : HandlerAttribute
-    //{
-    //    public override ICallHandler CreateHandler(IUnityContainer container)
-    //    {
-    //        return new ExceptionLoggerCallHandler();
-    //    }
-    //}
-
-    //internal class LoggerAttribute : HandlerAttribute
-    //{
-    //    public override ICallHandler CreateHandler(IUnityContainer container)
-    //    {
-    //        return new ExceptionLoggerCallHandler();
-    //    }
-    //}
-
     public interface ICalculator
     {
         [Logger]
@@ -93,6 +46,7 @@ namespace UnityAOPSample
 
         public int Add(int first, int second)
         {
+            Console.WriteLine("Add メソッド");
             return first + second;
         }
 
@@ -101,45 +55,4 @@ namespace UnityAOPSample
             return second * first;
         }
     }
-
-
-    //var container = new UnityContainer();
-    //// Interceptorを有効化
-    //container.AddNewExtension<Interception>();
-
-    //// Personクラスは仮想メソッドをインターセプトして、DataErrorInfoImplementationBehaviorでインターセプトするぜ
-    //container.RegisterType<Person>(
-    //    new Interceptor<VirtualMethodInterceptor>(),
-    //    new InterceptionBehavior<DataErrorInfoImplementationBehavior>());
-
-    //// コンテナからインスタンスを取得して動くか試してみる
-    //var p = container.Resolve<Person>();
-    //Console.WriteLine("ErrorMessage: {0}", p.Name);
-    //p.Name = "aaa";
-    //Console.WriteLine("ErrorMessage: {0}", p.Name);
-
-    //Console.WriteLine(p.Greet("Taro"));
-
-
-
-    //public class DataErrorInfoImplementationBehavior : IInterceptionBehavior
-    //{
-    //    public IEnumerable<Type> GetRequiredInterfaces()
-    //    {
-    //        yield return typeof(IDataErrorInfo);
-    //    }
-
-    //    public IMethodReturn Invoke(IMethodInvocation input, GetNextInterceptionBehaviorDelegate getNext)
-    //    {
-    //        Console.WriteLine("開始: " + input.MethodBase.Name);
-
-    //        var result = getNext()(input, getNext);
-
-    //        Console.WriteLine($"終了:{input.MethodBase.Name}");
-
-    //        return result;
-    //    }
-
-    //    public bool WillExecute => true;
-    //}
 }

@@ -8,8 +8,7 @@ namespace UnityAOPSample
 {
     /*
      * .NET6 では動かない
-     * ICallHandlerの実装部分を別Assemblyで.Net Standard 2.1 2.0にしても
-     * 結果は同じ
+     * .Net Standard 2.1 2.0にしても結果は同じ
      * container.Resolveを呼び出すメインAssemblyのプラットフォームが.NET5以下
      * の必要あり
      */
@@ -17,17 +16,23 @@ namespace UnityAOPSample
     {
         static void Main(string[] args)
         {
+            // コンテナを生成
             IUnityContainer container = new UnityContainer();
+
+            // Interceptorを有効化
             container.AddNewExtension<Interception>();
+
+            // コンテナに登録する際に、オプションを指定
             container
               .RegisterType<ICalculator, Calculator>()
               .Configure<Interception>()
               .SetInterceptorFor<ICalculator>(new InterfaceInterceptor());
 
-            // Resolve
+            // ここからテスト
+            // コンテナから取り出す
             ICalculator calc = container.Resolve<ICalculator>();
-
-            // Call method
+            
+            // メソッドの呼び出し
             calc.Add(1, 2);
         }
     }
@@ -36,9 +41,6 @@ namespace UnityAOPSample
     {
         [Logger]
         int Add(int first, int second);
-
-        [ExceptionLogger]
-        int Multiply(int first, int second);
     }
 
     public class Calculator : ICalculator
@@ -48,11 +50,6 @@ namespace UnityAOPSample
         {
             Console.WriteLine("Add メソッド");
             return first + second;
-        }
-
-        public int Multiply(int first, int second)
-        {
-            return second * first;
         }
     }
 }

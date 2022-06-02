@@ -25,14 +25,6 @@ namespace ClassLibrary1
         public int Order { get; set; }
     }
 
-    public class ExceptionLoggerAttribute : HandlerAttribute
-    {
-        public override ICallHandler CreateHandler(IUnityContainer container)
-        {
-            return new ExceptionLoggerCallHandler();
-        }
-    }
-
     public class LoggerAttribute : HandlerAttribute
     {
         public override ICallHandler CreateHandler(IUnityContainer container)
